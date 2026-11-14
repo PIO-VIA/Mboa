@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "build:pdf": "node scripts/generate_dossier_pdf.mjs",
-    "dossier:pdf": "node scripts/generate_dossier_pdf.mjs",
+    "dossier:pdf": "cd dossier_technique && pdflatex -interaction=nonstopmode dossier_technique_gifa.tex",
     "test": "node --test mboa/tests/unit.test.mjs",
     "e2e": "node mboa/tests/e2e.mjs",
     "e2e:local": "node mboa/tests/e2e-local.mjs",

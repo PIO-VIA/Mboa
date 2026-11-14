@@ -158,22 +158,92 @@ linguafin/
 
 ---
 
-## 🚀 Installation & Démarrage Rapide
+## 🔨 Guide de Compilation, Installation & Lancement Pas à Pas
 
-### Option A : Google Chrome, Microsoft Edge, Brave, Opera
+Suivez ces étapes simples pour compiler le projet à partir des sources, générer les paquets optimisés pour chaque navigateur et lancer l'extension en test.
 
-1. Ouvrez votre navigateur et accédez à `chrome://extensions` (ou `edge://extensions`).
-2. Activez l'option **Mode développeur** en haut à droite.
-3. Cliquez sur **Charger l'extension non empaquetée** (*Load unpacked*).
-4. Sélectionnez le dossier `dist/chrome/` (ou directement `mboa/`).
-5. L'extension Mboa est immédiatement opérationnelle !
+### 1. Prérequis
+* **Node.js** : Version 18.0 ou supérieure (`node -v`).
+* **npm** : Gestionnaire de paquets standard fourni avec Node (`npm -v`).
+* Un navigateur moderne : **Google Chrome**, **Mozilla Firefox**, **Brave**, **Microsoft Edge**, ou **Firefox pour Android**.
 
-### Option B : Mozilla Firefox & Firefox pour Android
+### 2. Étape 1 : Installation des dépendances
+À la racine du projet (`linguafin/`), installez les outils de test et de validation :
+```bash
+npm install
+```
 
-1. Ouvrez Firefox et tapez `about:debugging#/runtime/this-firefox` dans la barre d'adresses.
-2. Cliquez sur **Charger un module temporaire...** (*Load Temporary Add-on*).
-3. Sélectionnez le fichier `dist/firefox/manifest.json` (ou `mboa/manifest.json`).
-4. L'extension est active avec 0 avertissement de compatibilité.
+### 3. Étape 2 : Vérification des tests unitaires de sécurité
+Avant toute compilation, lancez la suite complète de 21 tests unitaires validant l'intégrité financière, le bouclier anti-fraude et la composition syntaxique :
+```bash
+npm test
+```
+> **Résultat attendu** : `pass 21 / fail 0` (100 % de réussite).
+
+### 4. Étape 3 : Compilation et génération des paquets (`npm run build`)
+Exécutez le script automatisé de compilation :
+```bash
+npm run build
+```
+Ce script exécute automatiquement :
+1. Les 21 tests unitaires de sécurité.
+2. Le nettoyage et la préparation du répertoire de distribution `dist/`.
+3. La génération des déclinaisons de manifestes conformes aux exigences strictes de chaque moteur de navigateur (Manifest V3 avec `service_worker` pour Chromium, Manifest V3 avec `scripts` d'arrière-plan pour Firefox).
+4. La validation officielle par le linter Mozilla (`web-ext lint` : **0 erreur, 0 avertissement**).
+5. La compression automatique des archives ZIP prêtes au déploiement.
+
+**Livrables générés dans `dist/` :**
+* `dist/chrome/` & `dist/mboa-chrome.zip` : Pour Google Chrome, Edge, Brave, Opera.
+* `dist/firefox/` & `dist/mboa-firefox.zip` : Pour Mozilla Firefox et Firefox pour Android.
+* `dist/mboa/` & `dist/mboa-universel.zip` : Paquet universel multi-navigateurs.
+
+---
+
+### 5. Étape 4 : Charger l'extension dans votre navigateur
+
+#### Pour Google Chrome, Microsoft Edge, Brave ou Opera :
+1. Ouvrez votre navigateur et saisissez l'adresse : `chrome://extensions` (ou `edge://extensions`).
+2. Activez le commutateur **« Mode développeur »** (en haut à droite de la page).
+3. Cliquez sur le bouton **« Charger l'extension non empaquetée »** (*Load unpacked*).
+4. Sélectionnez le dossier compilé **`dist/chrome/`** (ou directement le dossier source `mboa/`).
+5. L'extension **Mboa** apparaît immédiatement dans la liste de vos extensions !
+6. *(Recommandé)* Cliquez sur l'icône Puzzle en haut à droite de la barre d'outils et **épinglez Mboa** pour un accès rapide.
+
+#### Pour Mozilla Firefox ou Firefox pour Android :
+1. Ouvrez Firefox et accédez à : `about:debugging#/runtime/this-firefox`.
+2. Cliquez sur le bouton **« Charger un module temporaire... »** (*Load Temporary Add-on*).
+3. Naviguez dans le dossier et sélectionnez le fichier **`dist/firefox/manifest.json`** (ou `mboa/manifest.json`).
+4. L'extension est activée avec 0 avertissement de compatibilité.
+
+---
+
+### 6. Étape 5 : Lancer la démo et tester les fonctionnalités
+
+Une fois l'extension chargée, testez-la immédiatement sur l'un des environnements suivants :
+
+#### Option A : Plateforme officielle du hackathon CNEF (En ligne)
+1. Rendez-vous sur la plateforme officielle : **[https://safinum.cm/hackathon-test?jury=1](https://safinum.cm/hackathon-test?jury=1)**
+2. La pastille flottante **M** apparaît immédiatement en bas à gauche de la page bancaire.
+3. **Changer de langue** : Cliquez sur la pastille et choisissez une langue (ex. **Ewondo**, **Duala**, **Fulfulde** ou **Pidgin**). L'interface bascule instantanément sans recharger la page.
+4. **Vérifier les calculs et devises FCFA** : Naviguez jusqu'à l'étape des Frais. La carte flottante *« Avant de confirmer »* s'ouvre, ventilant le montant en billets FCFA réels de la BEAC et vérifiant l'exactitude des frais.
+5. **Vérification du Jury** : Cliquez sur le bouton *« Vérifier l'étape maintenant »* de la bannière jury : le journal confirme que tous les montants et identifiants restent **Intègres**.
+
+#### Option B : Simulateur bancaire hors ligne inclus (100 % local)
+Si vous n'avez pas de connexion Internet, ouvrez simplement le fichier de démonstration locale fourni :
+```bash
+# Exemple sous Linux / macOS :
+xdg-open mboa-demo/index.html
+# Ou glissez simplement mboa-demo/index.html dans votre navigateur
+```
+Ce simulateur bancaire (*Kola Pay*) permet de tester le transfert, le barème de frais, les simulations d'erreur et les alertes anti-arnaque de manière autonome.
+
+---
+
+### 7. Étape 6 : Accéder au Studio Linguistique Mboa
+Pour inspecter la mémoire de phrases, valider de nouveaux termes ou enregistrer des voix natives :
+* Cliquez sur le lien **« Studio linguistique »** dans le pied du panneau Mboa ou dans le popup.
+* Ou ouvrez directement dans votre navigateur : `dist/chrome/studio/studio.html` (ou `mboa/studio/studio.html`).
+* Les validateurs natifs peuvent y importer des feuilles de validation CSV, filtrer les statuts et écouter les enregistrements audio.
 
 ---
 
